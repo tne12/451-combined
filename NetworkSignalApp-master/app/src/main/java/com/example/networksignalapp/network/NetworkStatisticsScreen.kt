@@ -1,4 +1,5 @@
-package com.example.networksignalapp.ui.screens
+//package com.example.networksignalapp.ui.screens
+package com.example.networksignalapp.network
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

@@ -30,6 +30,9 @@ import com.example.networksignalapp.ui.theme.Red
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
+import retrofit2.Retrofit
 
 @Composable
 fun SignalOverviewScreen(
@@ -38,7 +41,8 @@ fun SignalOverviewScreen(
 ) {
     // 🔁 Submit test data once when screen appears
     LaunchedEffect(Unit) {
-        val api = ApiClient.retrofit.create(ApiService::class.java)
+//        val api = ApiClient.retrofit.create(ApiService::class.java)
+        val api= ApiClient.apiService
 
         val request = SubmitRequest(
             timestamp = "2025-04-08 13:05:00",
@@ -52,10 +56,10 @@ fun SignalOverviewScreen(
             device_mac = "AA:BB:CC:DD:EE:01"
         )
 
-        api.submitSignalData(request).enqueue(object : Callback<Map<String, String>> {
+        api.submitSignalData(request).enqueue(object : Callback<Void> {
             override fun onResponse(
-                call: Call<Map<String, String>>,
-                response: Response<Map<String, String>>
+                call: Call<Void>,
+                response: Response<Void>
             ) {
                 if (response.isSuccessful) {
                     Log.d("API", "✅ Data submitted successfully")
@@ -64,7 +68,7 @@ fun SignalOverviewScreen(
                 }
             }
 
-            override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.e("API", "⚠️ Error: ${t.message}")
             }
         })
