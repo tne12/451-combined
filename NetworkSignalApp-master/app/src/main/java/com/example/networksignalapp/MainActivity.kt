@@ -29,6 +29,9 @@ import com.example.networksignalapp.ui.screens.ServerScreen
 import com.example.networksignalapp.ui.screens.SignalCache
 import com.example.networksignalapp.ui.screens.SignalOverviewScreen
 import com.example.networksignalapp.ui.theme.NetworkSignalAppTheme
+import com.example.networksignalapp.ui.screens.RegisterScreen
+import com.example.networksignalapp.ui.screens.LoginScreen
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
 
@@ -185,5 +188,7 @@ fun NetworkSignalApp(
                 onNavigateToServer = { navController.navigate("server") }
             )
         }
+        composable("login") { LoginScreen(navController, context = LocalContext.current) }
+        composable("register") { RegisterScreen(navController, context = LocalContext.current) }
     }
 }

@@ -2,11 +2,16 @@ package com.example.networksignalapp.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.networksignalapp.R
 
 @Composable
@@ -14,7 +19,8 @@ fun BottomNavigationBar(
     selectedTab: String,
     onOverviewSelected: () -> Unit,
     onServerSelected: () -> Unit,
-    onStatisticsSelected: () -> Unit
+    onStatisticsSelected: () -> Unit,
+    navController: NavController // Added NavController here
 ) {
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
@@ -77,5 +83,30 @@ fun BottomNavigationBar(
                 unselectedTextColor = MaterialTheme.colorScheme.onSurface
             )
         )
+
+        NavigationBarItem(
+            selected = currentRoute(navController) == "login",
+            onClick = { navController.navigate("login") },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = "Account",
+                    modifier = Modifier.size(24.dp)
+                )
+            },
+            label = { Text("Account") },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = MaterialTheme.colorScheme.primary,
+                unselectedIconColor = MaterialTheme.colorScheme.onSurface,
+                selectedTextColor = MaterialTheme.colorScheme.primary,
+                unselectedTextColor = MaterialTheme.colorScheme.onSurface
+            )
+        )
     }
+}
+
+@Composable
+fun currentRoute(navController: NavController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
