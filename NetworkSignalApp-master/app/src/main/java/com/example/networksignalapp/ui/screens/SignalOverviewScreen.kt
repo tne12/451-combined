@@ -34,9 +34,11 @@ import com.example.networksignalapp.ui.screens.exportToCsv
 import android.widget.Toast
 import java.io.File
 import com.example.networksignalapp.MainActivity
+import androidx.navigation.NavController
 
 @Composable
 fun SignalOverviewScreen(
+    navController: NavController,
     onNavigateToServer: () -> Unit,
     onNavigateToStatistics: () -> Unit,
     onToggleTheme: () -> Unit,
@@ -95,7 +97,8 @@ fun SignalOverviewScreen(
                 selectedTab = "overview",
                 onOverviewSelected = {},
                 onServerSelected = onNavigateToServer,
-                onStatisticsSelected = onNavigateToStatistics
+                onStatisticsSelected = onNavigateToStatistics,
+                navController = navController
             )
         }
     ) { paddingValues ->

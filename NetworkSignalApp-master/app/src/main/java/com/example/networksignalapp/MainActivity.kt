@@ -28,10 +28,11 @@ import com.example.networksignalapp.ui.screens.NetworkStatisticsScreen
 import com.example.networksignalapp.ui.screens.ServerScreen
 import com.example.networksignalapp.ui.screens.SignalCache
 import com.example.networksignalapp.ui.screens.SignalOverviewScreen
-import com.example.networksignalapp.ui.theme.NetworkSignalAppTheme
 import com.example.networksignalapp.ui.screens.RegisterScreen
 import com.example.networksignalapp.ui.screens.LoginScreen
+import com.example.networksignalapp.ui.theme.NetworkSignalAppTheme
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 
 class MainActivity : ComponentActivity() {
 
@@ -104,7 +105,7 @@ class MainActivity : ComponentActivity() {
                     -120
                 }
                 SignalCache.signalStrength = "$dbm dBm"
-                SignalCache.operator = "Alfa" // replace this later if you can detect the real one
+                SignalCache.operator = "Alfa" // replace later if you can detect the real one
                 SignalCache.networkType = "4G"
                 SignalCache.sinr = "18.5 dB"
 
@@ -173,22 +174,29 @@ fun NetworkSignalApp(
                 onNavigateToServer = { navController.navigate("server") },
                 onNavigateToStatistics = { navController.navigate("statistics") },
                 onToggleTheme = onToggleTheme,
-                darkMode = darkMode
+                darkMode = darkMode,
+                navController = navController
             )
         }
         composable("server") {
             ServerScreen(
+                navController = navController,
                 onNavigateToOverview = { navController.navigate("overview") },
                 onNavigateToStatistics = { navController.navigate("statistics") }
             )
         }
         composable("statistics") {
             NetworkStatisticsScreen(
+                navController = navController,
                 onNavigateToOverview = { navController.navigate("overview") },
-                onNavigateToServer = { navController.navigate("server") }
+                onNavigateToServer = { navController.navigate("server") },
             )
         }
-        composable("login") { LoginScreen(navController, context = LocalContext.current) }
-        composable("register") { RegisterScreen(navController, context = LocalContext.current) }
+        composable("login") {
+            LoginScreen(navController = navController, context = LocalContext.current)
+        }
+        composable("register") {
+            RegisterScreen(navController = navController, context = LocalContext.current)
+        }
     }
 }

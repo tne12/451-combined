@@ -15,11 +15,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.networksignalapp.R
 import com.example.networksignalapp.ui.components.BottomNavigationBar
+import androidx.navigation.NavController
 
 @Composable
 fun ServerScreen(
     onNavigateToOverview: () -> Unit,
-    onNavigateToStatistics: () -> Unit
+    onNavigateToStatistics: () -> Unit,
+    navController: NavController,
+
 ) {
     val devices = listOf(
         DeviceInfo(1, "Device 1", "192.168.1.100", "00:1A:2B:3C:4D:5E", R.drawable.ic_smartphone),
@@ -36,7 +39,8 @@ fun ServerScreen(
                 selectedTab = "server",
                 onOverviewSelected = onNavigateToOverview,
                 onServerSelected = {},
-                onStatisticsSelected = onNavigateToStatistics
+                onStatisticsSelected = onNavigateToStatistics,
+                navController = navController
             )
         }
     ) { paddingValues ->

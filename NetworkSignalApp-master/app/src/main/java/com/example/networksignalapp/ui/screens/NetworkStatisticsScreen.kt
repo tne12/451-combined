@@ -14,13 +14,15 @@ import com.example.networksignalapp.ui.components.BarChartView
 import com.example.networksignalapp.ui.components.BottomNavigationBar
 import com.example.networksignalapp.ui.components.CalendarView
 import androidx.compose.ui.draw.clip
+import androidx.navigation.NavController
 
 
 
 @Composable
 fun NetworkStatisticsScreen(
     onNavigateToOverview: () -> Unit,
-    onNavigateToServer: () -> Unit
+    onNavigateToServer: () -> Unit,
+    navController: NavController,
 ) {
     var selectedTab by remember { mutableStateOf("connectivity") }
     var showCalendar by remember { mutableStateOf(false) }
@@ -31,7 +33,8 @@ fun NetworkStatisticsScreen(
                 selectedTab = "statistics",
                 onOverviewSelected = onNavigateToOverview,
                 onServerSelected = onNavigateToServer,
-                onStatisticsSelected = {}
+                onStatisticsSelected = {},
+                navController = navController
             )
         }
     ) { paddingValues ->

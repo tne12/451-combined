@@ -20,7 +20,7 @@ fun BottomNavigationBar(
     onOverviewSelected: () -> Unit,
     onServerSelected: () -> Unit,
     onStatisticsSelected: () -> Unit,
-    navController: NavController // Added NavController here
+    navController: NavController
 ) {
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
@@ -85,23 +85,11 @@ fun BottomNavigationBar(
         )
 
         NavigationBarItem(
+            icon = { Icon(Icons.Default.AccountCircle, contentDescription = "Account") },
             selected = currentRoute(navController) == "login",
-            onClick = { navController.navigate("login") },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Account",
-                    modifier = Modifier.size(24.dp)
-                )
-            },
-            label = { Text("Account") },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = MaterialTheme.colorScheme.primary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                selectedTextColor = MaterialTheme.colorScheme.primary,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurface
+            onClick = { navController.navigate("login") }
+
             )
-        )
     }
 }
 

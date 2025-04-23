@@ -1,4 +1,3 @@
-//package com.example.networksignalapp.ui.screens
 package com.example.networksignalapp.network
 
 import androidx.compose.foundation.background
@@ -20,11 +19,14 @@ import com.example.networksignalapp.ui.components.CalendarView
 import com.example.networksignalapp.ui.theme.DarkGray
 import com.example.networksignalapp.ui.theme.Green
 import com.example.networksignalapp.ui.theme.Red
+import androidx.navigation.NavController
 
 @Composable
 fun NetworkStatisticsScreen(
+    navController: NavController,
     onNavigateToOverview: () -> Unit,
     onNavigateToServer: () -> Unit
+
 ) {
     var selectedTab by remember { mutableStateOf("connectivity") }
     var showCalendar by remember { mutableStateOf(false) }
@@ -35,7 +37,8 @@ fun NetworkStatisticsScreen(
                 selectedTab = "statistics",
                 onOverviewSelected = onNavigateToOverview,
                 onServerSelected = onNavigateToServer,
-                onStatisticsSelected = {}
+                onStatisticsSelected = {},
+                navController = navController
             )
         }
     ) { paddingValues ->
