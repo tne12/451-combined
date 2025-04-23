@@ -15,34 +15,101 @@ import com.example.networksignalapp.network.LoginRequest
 import com.example.networksignalapp.network.UserSessionManager
 import com.example.networksignalapp.network.RetrofitClient
 import kotlinx.coroutines.launch
+import com.example.networksignalapp.ui.components.BottomNavigationBar
+import androidx.compose.foundation.layout.*
+import androidx.compose.ui.Alignment
+
+
 
 @Composable
-fun LoginScreen(navController: NavController, context: Context) {
+fun LoginScreen(
+    navController: NavController,
+    context: Context,
+    selectedTab: String = "login",
+    onOverviewSelected: () -> Unit = {},
+    onServerSelected: () -> Unit = {},
+    onStatisticsSelected: () -> Unit = {}
+) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val authService = RetrofitClient.create(AuthService::class.java)
     val session = UserSessionManager(context)
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Login", style = MaterialTheme.typography.headlineMedium)
-        OutlinedTextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
-        OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") }, visualTransformation = PasswordVisualTransformation())
-        Button(onClick = {
-            scope.launch {
-                val response = authService.login(LoginRequest(username, password))
-                if (response.isSuccessful) {
-                    response.body()?.token?.let { token ->
-                        session.saveToken(token)
-                        Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
-                        navController.navigate("home")
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(
+                selectedTab = selectedTab,
+                onOverviewSelected = onOverviewSelected,
+                onServerSelected = onServerSelected,
+                onStatisticsSelected = onStatisticsSelected,
+                navController = navController
+            )
+        }
+    ) { innerPadding ->
+        // Center the card vertically and horizontally
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
+                modifier = Modifier.padding(16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .widthIn(min = 300.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text("Login", style = MaterialTheme.typography.headlineMedium)
+
+                    OutlinedTextField(
+                        value = username,
+                        onValueChange = { username = it },
+                        label = { Text("Username") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") },
+                        visualTransformation = PasswordVisualTransformation(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Button(
+                        onClick = {
+                            scope.launch {
+                                val response = authService.login(LoginRequest(username, password))
+                                if (response.isSuccessful) {
+                                    response.body()?.token?.let { token ->
+                                        session.saveToken(token)
+                                        Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                                        navController.navigate("home")
+                                    }
+                                } else {
+                                    Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Login")
                     }
-                } else {
-                    Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
+
+                    TextButton(
+                        onClick = { navController.navigate("register") },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Don't have an account? Register")
+                    }
                 }
             }
-        }) {
-            Text("Login")
         }
     }
 }

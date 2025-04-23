@@ -193,10 +193,23 @@ fun NetworkSignalApp(
             )
         }
         composable("login") {
-            LoginScreen(navController = navController, context = LocalContext.current)
+            LoginScreen(
+                navController = navController,
+                context = LocalContext.current,
+                onOverviewSelected = { navController.navigate("overview") },
+                onServerSelected = { navController.navigate("server") },
+                onStatisticsSelected = { navController.navigate("statistics") }
+            )
         }
+
         composable("register") {
-            RegisterScreen(navController = navController, context = LocalContext.current)
+            RegisterScreen(
+                navController = navController,
+                context = LocalContext.current,
+                onOverviewSelected = { navController.navigate("overview") },
+                onServerSelected = { navController.navigate("server") },
+                onStatisticsSelected = { navController.navigate("statistics") }
+            )
         }
     }
 }
